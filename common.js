@@ -42,3 +42,45 @@ for (let i =1; i<=7 ; i++){
     fontSizeRef.value = 3;
 }
 
+const modifyText = (command,defaultUi , value) =>{
+    document.execCommand(command ,defaultUi ,value);
+}
+
+optionsButtons.forEach((button) => {
+    button.addEventListener('click', ()=>{
+        modifyText(button.id,false,null);
+    });
+});
+
+linkButton.addEventListener('click',()=>{
+    const userLink = prompt('Enter a URL');
+    if(/http/i.test(userLink)){
+        modifyText(linkButton.id,false,userLink)
+    }
+    else{
+        userLink = 'http://' + userLink;
+        modifyText(linkButton.id,false,userLink)
+    }
+})
+
+const highlighter = (className , needsRemoval) =>{
+    className.forEach((button)=>{
+        button.addEventListener('click',()=>{
+            if(needsRemoval){
+                let alreadyActive = false;
+                if(button.classList.contains('active')){
+                    alreadyActive = true;
+                }
+                highlighterRemover(className);
+                if(!alreadyActive){
+                    button.classList.add('active');
+                }
+            }
+            else{
+                button.classList.toggle('active');
+            }
+        })
+    })
+}
+
+const highlighterRemover = () =>
